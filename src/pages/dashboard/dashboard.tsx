@@ -6,6 +6,8 @@ import tesla from '../../assets/tesla.png';
 import neuralink from '../../assets/neuralink.png';
 import twitter from '../../assets/twitter.png';
 import app from "../../base";
+import { auth } from "../../firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 export const Dashboard=()=>{
     const investRef = useRef<any>();
@@ -26,7 +28,7 @@ export const Dashboard=()=>{
     }
 
     const returnsIntoView=()=>{
-        returnRef.current.scrollIntoView({behavior: "smooth",block: 'center' });
+        returnRef.current.scrollIntoView({behavior: "smooth",block: 'center',scrollMarginTop:'75px'});
     }
 
     //calculate returns
@@ -41,12 +43,16 @@ export const Dashboard=()=>{
     }
 
     useEffect(()=>{
-        const user = JSON.parse(localStorage.getItem('user')!);
-        setUserData(user)
-        if (!user || Object.keys(user).length < 1) {
-            navigate('/');
+        const user = JSON.parse(localStorage.getItem('client')!)
+        if (!user?.uid) {
+           navigate('/') 
         }
     },[])
+
+    const logout=async()=>{
+        localStorage.setItem('client','');
+        navigate('/');
+    }
 
     const listItems=[
         {id:1,text:'Ensure you provide your precise crypto currency wallet address'},
@@ -59,7 +65,7 @@ export const Dashboard=()=>{
     ]
 
     const planOptions=[
-        {id:1,plan:'Please select',value:''},
+        {id:0,plan:'Please select',value:''},
         {id:1,plan:'One week',value:'1w'},
         {id:2,plan:'One month',value:'1m'},
         {id:3,plan:'Six months',value:'6m'},
@@ -74,8 +80,7 @@ export const Dashboard=()=>{
                         <p className=" text-2xl text-gray-800">Dashboard</p>
                         <button
                         onClick={()=>{
-                            navigate('/');
-                            localStorage.setItem('user',JSON.stringify({}));
+                            logout()
                         }}
                         className="  border-2 hover:border-blue-400 border-gray-300 rounded py-2 px-4 "
                         >Logout</button>
@@ -87,7 +92,7 @@ export const Dashboard=()=>{
                     {/* hero */}
                     <section>
                         <p className=" text-gray-400 mt-2">Musk Investments</p>
-                        <p className=" text-xl">Welcome, <span className=" text-blue-700">{userData.name}</span></p>
+                        <p className=" text-xl">Welcome, <span className=" text-blue-700">{userData.name??'Investor'}</span></p>
                         
                         <div className=" text-center my-28">
                             <h1 className=" text-4xl">Invest your Crypo currency in the most reliable stocks</h1>
@@ -153,6 +158,10 @@ export const Dashboard=()=>{
                         name="amount"
                         placeholder="Eg. One week"
                         onChange={(e)=>{
+                            if (amount < 50) {
+                                alert('Minimum investments amount is $50. Thank you.')
+                                return;
+                            }
                             setPlan(e.target.value);
                             returnsIntoView();
                         }}
@@ -166,7 +175,7 @@ export const Dashboard=()=>{
                     <hr className="w-96 m-auto"/>
 
                     {/* btc wallet details */}
-                    {(senderbtc && amount>0 && plan)&&(
+                    {(senderbtc && amount>=50 && plan)&&(
                         <div className="">
                             <p className=" mt-5 text-2xl">Potential Return : <span className=" text-green-800">{`$${getReturns(amount,plan)}`}</span></p>
                             <p className=" mt-3 text-gray-600">Please send exactly <span className=" font-semibold text-black">${amount}</span> to the bitcoin address below</p>
@@ -205,15 +214,15 @@ export const Dashboard=()=>{
                 </section>
 
                 <section ref={returnRef} className="flex flex-row justify-between w-10/12  md:w-8/12 lg:w-6/12 py-14 m-auto">
-                    <span className=" h-16 w-20 md:h-20 md:w-24 ">
+                    <span className=" h-12 w-16 md:h-20 md:w-24 ">
                         <img className=" w-full h-full" src={tesla} alt="tesla" />
                     </span>
 
-                    <span className=" h-16 w-28 md:h-20 md:w-32 ">
+                    <span className=" h-12 w-24 md:h-20 md:w-32 ">
                         <img className=" w-full h-full" src={neuralink} alt="image" />
                     </span>
 
-                    <span className=" h-16 w-16 md:h-20 md:w-20">
+                    <span className=" h-12 w-12 md:h-20 md:w-20">
                         <img className=" w-full h-full" src={twitter} alt="image" />
                     </span>
                 </section>
