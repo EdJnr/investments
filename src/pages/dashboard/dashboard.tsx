@@ -8,6 +8,7 @@ import twitter from '../../assets/twitter.png';
 import app from "../../base";
 import { auth } from "../../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { TrendingCoins } from "./widgets/trendingCoins";
 
 export const Dashboard=()=>{
     const investRef = useRef<any>();
@@ -106,6 +107,9 @@ export const Dashboard=()=>{
                         </div>
                     </section>
                 </section>
+
+                {/* trending */}
+                <TrendingCoins/>
 
                 {/* How to */}
                 <section 
