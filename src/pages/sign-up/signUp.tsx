@@ -3,6 +3,8 @@ import Header from "../../components/header";
 import Alert from "../../components/alert";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUp = () => {
     const navigate=useNavigate();
@@ -33,16 +35,18 @@ const SignUp = () => {
             })
             return;
         }
+        else if (password.length < 6) {
+            setAlert({
+                state:true,
+                message:'Password must be at least 6 characters!',
+                backGround:'red'
+            })
+            return;
+        }
         
         try {
             setloading(true);
-            const signUp=await axios.post(`http://localhost:3001/api/create`,{
-                name:name,
-                email:email,
-                password:password
-            },{
-                headers:headers
-            });
+            const signUp = await createUserWithEmailAndPassword(auth,email,password)
             console.log(signUp);
             
             setAlert({
@@ -51,12 +55,22 @@ const SignUp = () => {
                 backGround:'green'
             })
 
+            setName('');
+            setEmail('');
+            setPassword('')
+            setconfirmPassword('');
+
+            setTimeout(() => {
+                navigate('/');
+            }, 4000);
+
             setloading(false)            
-        } catch (error) {
-            console.log(error);
-            
+        } catch (error:any) {
+            if (error.status === 400) {
+                alert('yo')
+            }            
             setloading(false);
-            setAlert({state:true,message:'Login failed. Please retry later!', backGround:'green'})
+            setAlert({state:true,message:error.code??'Login failed. Please retry later!', backGround:'red'})
         }
     } 
     return (
@@ -77,9 +91,9 @@ const SignUp = () => {
                     <h6 className=" text-3xl mb-5 ">Create An Account</h6>
                     <form 
                     onSubmit={handleSignUp}
-                    className=" w-72"
+                    className="w-10/12 sm:w-7/12 md:w-72"
                     action="">
-                        <input
+                        {/* <input
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-3 h-12 rounded w-full px-3"
                         type="name" 
                         placeholder="What's your name..." 
@@ -91,7 +105,7 @@ const SignUp = () => {
                             })
                             setName(e.target.value);
                         }}
-                        required/>
+                        required/> */}
 
                         <input
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-3 h-12 rounded w-full px-3"

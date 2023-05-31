@@ -3,6 +3,8 @@ import Header from "../../components/header";
 import Alert from "../../components/alert";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { app, auth } from "../../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -13,35 +15,20 @@ const Login = () => {
         state:false,
         message:''
     })
-
     const handleLogin=async(e:any)=>{
         e.preventDefault();
+        //firebase signin
         
         try {
             setloading(true);
-            const user=await axios.get(`http://localhost:3001/api/login/${email}/${password}`);
-            
-            if (user.data?.data?.length < 1) {
-                setAlert({state:true,message:'Invalid email or password!'});
-                setloading(false)
-                return;
-            }
-            else if (user.data?.status==='success') {
-                // login successful
-                const to_localStorage = {...user.data.data[0],password:'#'}
-                localStorage.setItem('user',JSON.stringify(to_localStorage));
-                navigate('/dashboard');
-                setloading(false);
-            } 
-            else {
-                setloading(false);
-                setAlert({state:true,message:'Login failed. Please retry later!'}) 
-            }
-        } catch (error) {
-            console.log(error);
-            
+            const user = await signInWithEmailAndPassword(auth,email,password);
+            localStorage.setItem('client',JSON.stringify(user.user));
+
             setloading(false);
-            setAlert({state:true,message:'Login failed. Please retry later!'})
+            navigate('/dashboard')
+        } catch (error:any) {            
+            setloading(false);
+            setAlert({state:true,message:error?.code??'Login failed. Please retry later!'})
         }
     } 
     return (
@@ -62,7 +49,7 @@ const Login = () => {
                     <h6 className=" text-3xl mb-5 ">Welcome Back</h6>
                     <form 
                     onSubmit={handleLogin}
-                    className=" w-72"
+                    className="w-10/12 sm:w-7/12 md:w-72"
                     action="">
                         <input
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-3 h-12 rounded w-full px-3"
