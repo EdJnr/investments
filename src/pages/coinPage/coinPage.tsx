@@ -80,32 +80,55 @@ export const CoinPage=()=>{
     },[])
 
     const dataArr = [
-        {id:0,head:'2th Lower'},
+      {id:0,head:'Market Cap Rank',text:coinData?.market_cap_rank},
+      {id:1,head:'24h High',text:coinData?.market_data?.high_24h[currency]},
+      {id:2,head:'24h Lower',text:coinData?.market_data?.low_24h[currency]},
+      {id:3,head:'Circulating Supply',text:coinData?.market_data?.circulating_supply},
+      {id:4,head:'Current Price',text:coinData?.market_data?.current_price[currency]},
+      {id:5,head:'1y Change',text:coinData?.market_data?.price_change_percentage_1y?.toFixed(2)},
     ]
     return(
-        <> 
-            <header>
-                <img src={coinData?.image.large} alt="" />
-                <h2>{coinData?.name}</h2>
-            </header>
+      <div className=" w-8/12 m-auto mt-36"> 
+        <header className=" flex flex-col items-center">
+          <img className=" w-36 h36" src={coinData?.image?.large} alt="" />
+          <h2>{coinData?.name}</h2>
+        </header>
 
+        <div
+        style={{
+          width:700,
+          height:250
+        }}
+        className="">
+          <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-            width={500}
-            height={400}
-            data={coinStore.graphData}
-            margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-            }}
-            >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="Date" />
-            <YAxis />
-            <Tooltip />
-            <Area type="monotone" dataKey="Price" stroke="#8884d8" fill="#8884d8" />
-            </AreaChart>
-        </>
+              data={coinStore.graphData}
+              margin={{
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+              }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="Date" />
+                <YAxis />
+                <Tooltip />
+                <Area type="monotone" dataKey="Price" stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        <section>
+          <div className="details">
+            {dataArr.map(({id,head,text})=>
+              <div key={id} className="">
+                <h3>{head}</h3>
+                <p>{text}</p>
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
     )
 }

@@ -18,7 +18,7 @@ export const Dashboard=()=>{
     
     const[senderbtc,setSenderBtc]=useState('');
     const[amount,setAmount]=useState(0);
-    const[plan,setPlan]=useState('');
+    const[plan,setPlan]=useState(''); 
 
     const bitcoinAddress = '18ZUFvWDi36J38p1woVRDFLVQh74ynDPkS';
     const navigate =useNavigate();
@@ -75,19 +75,6 @@ export const Dashboard=()=>{
     return(
         <>
             <main className=" m-auto">
-                {/* nav */}
-                <nav className="flex top-0 flex-row w-full fixed h-20 bg-white justify-between items-center">
-                    <div className=" w-10/12 lg:w-9/12 m-auto flex items-center  justify-between">
-                        <p className=" text-2xl text-gray-800">Dashboard</p>
-                        <button
-                        onClick={()=>{
-                            logout()
-                        }}
-                        className="  border-2 hover:border-blue-400 border-gray-300 rounded py-2 px-4 "
-                        >Logout</button>
-                    </div>
-                </nav>
-
                 {/* hero */}
                 <section className=" mt-20 w-10/12 lg:w-9/12 m-auto text-left ">
                     {/* hero */}
@@ -131,9 +118,9 @@ export const Dashboard=()=>{
                 ref={investRef}
                 id="invest"
                 className=" w-10/12 lg:w-9/12 py-14 m-auto">
-                    <h1 className=" text-2xl mb-7">Invest now!</h1>
+                    <h1 className=" text-2xl mb-7">Invest now</h1>
 
-                    <div className=" w-12/12 lg:w-96 m-auto">
+                    <div className=" w-12/12 lg:w-72 m-auto">
                         <label className=" text-gray-500" htmlFor="yourbtc">Your Bitcoin wallet</label>
                         <input
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-6 h-12 rounded w-full px-3"
