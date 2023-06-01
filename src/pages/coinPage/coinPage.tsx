@@ -78,12 +78,17 @@ export const CoinPage=()=>{
         :
         navigate('/dashboard')
     },[])
+
+    const dataArr = [
+        {id:0,head:'2th Lower'},
+    ]
     return(
         <> 
             <header>
                 <img src={coinData?.image.large} alt="" />
                 <h2>{coinData?.name}</h2>
             </header>
+
             <AreaChart
             width={500}
             height={400}
