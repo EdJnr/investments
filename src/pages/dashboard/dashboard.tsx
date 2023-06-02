@@ -9,12 +9,14 @@ import app from "../../base";
 import { auth } from "../../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { TrendingCoins } from "./widgets/trendingCoins";
+import toast, { Toaster } from 'react-hot-toast';
 
 export const Dashboard=()=>{
     const investRef = useRef<any>();
     const btcAddresRef = useRef<any>();
     const returnRef = useRef<any>();
     const [userData,setUserData] = useState<any>({});
+    const [InvestMode,setInvestMode]=useState(false);
     
     const[senderbtc,setSenderBtc]=useState('');
     const[amount,setAmount]=useState(0);
@@ -43,17 +45,30 @@ export const Dashboard=()=>{
         navigator.clipboard.writeText(bitcoinAddress);
     }
 
+    const handleInvest =(e:any)=>{
+        e.preventDefault();
+
+        amount < 50 ?
+        toast('Minimum Investment Amount is $50',
+        {
+            // icon: '👏',
+            style: {
+            borderRadius: '4px',
+            background: '#333',
+            color: '#fff',
+            },
+        }
+        )
+        :
+        setInvestMode(true);
+    }
+
     useEffect(()=>{
         const user = JSON.parse(localStorage.getItem('client')!)
         if (!user?.uid) {
            navigate('/') 
         }
     },[])
-
-    const logout=async()=>{
-        localStorage.setItem('client','');
-        navigate('/');
-    }
 
     const listItems=[
         {id:1,text:'Ensure you provide your precise crypto currency wallet address'},
@@ -75,6 +90,8 @@ export const Dashboard=()=>{
     return(
         <>
             <main className=" m-auto">
+                <Toaster />
+
                 {/* hero */}
                 <section className=" mt-20 w-10/12 lg:w-9/12 m-auto text-left ">
                     {/* hero */}
@@ -84,7 +101,7 @@ export const Dashboard=()=>{
                         
                         <div className=" text-center my-28">
                             <h1 className=" text-4xl">Invest your Crypo currency in the most reliable stocks</h1>
-                            <p className=" mt-2 text-gray-600">Scroll down to learn more or start investing now</p>
+                            <p className=" mt-2 text-gray-400">Scroll down to learn more or start investing now</p>
                             <button
                             onClick={()=>{
                                 investmentIntoView();
@@ -120,15 +137,18 @@ export const Dashboard=()=>{
                 className=" w-10/12 lg:w-9/12 py-14 m-auto">
                     <h1 className=" text-2xl mb-7">Invest now</h1>
 
-                    <div className=" w-12/12 lg:w-72 m-auto">
+                    <form 
+                    onSubmit={handleInvest}
+                    className=" w-12/12 lg:w-72 m-auto">
                         <label className=" text-gray-500" htmlFor="yourbtc">Your Bitcoin wallet</label>
                         <input
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-6 h-12 rounded w-full px-3"
                         type="name" 
                         name="yourbtc"
-                        placeholder="Eg. fbdhfvsjvagvghvhvghv   gcgccghcgcgccgh fz" 
+                        placeholder="Eg. 3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5" 
                         onChange={(e)=>{
-                            setSenderBtc(e.target.value)
+                            setSenderBtc(e.target.value);
+                            InvestMode && setInvestMode(false);
                         }}
                         required/>
 
@@ -139,7 +159,8 @@ export const Dashboard=()=>{
                         name="amount"
                         placeholder="Minimum $50" 
                         onChange={(e)=>{
-                            setAmount(Number(e.target.value))
+                            setAmount(Number(e.target.value));
+                            InvestMode && setInvestMode(false);
                         }}
                         required/>
 
@@ -149,24 +170,27 @@ export const Dashboard=()=>{
                         name="amount"
                         placeholder="Eg. One week"
                         onChange={(e)=>{
-                            if (amount < 50) {
-                                alert('Minimum investments amount is $50. Thank you.')
-                                return;
-                            }
                             setPlan(e.target.value);
-                            returnsIntoView();
+                            InvestMode && setInvestMode(false);
                         }}
                         required>
                         {planOptions.map(({id,value,plan})=>
                             <option key={id} value={value}>{plan}</option>
                         )}
                         </select>
-                    </div>
 
-                    <hr className="w-96 m-auto"/>
-
+                        {InvestMode?(
+                        <hr className="w-72 m-auto"/>
+                        ):
+                        (
+                            <button
+                            className=" mt-0 hover:bg-blue-400 bg-blue-500 rounded py-2 px-4 text-white "
+                            >Invest</button>
+                        )}
+                    </form>
+                    
                     {/* btc wallet details */}
-                    {(senderbtc && amount>=50 && plan)&&(
+                    {(InvestMode)&&(
                         <div className="">
                             <p className=" mt-5 text-2xl">Potential Return : <span className=" text-green-800">{`$${getReturns(amount,plan)}`}</span></p>
                             <p className=" mt-3 text-gray-600">Please send exactly <span className=" font-semibold text-black">${amount}</span> to the bitcoin address below</p>
@@ -204,6 +228,7 @@ export const Dashboard=()=>{
                     )}
                 </section>
 
+                <h1 className=" text-2xl mb-2 mt-5">Powered By</h1>
                 <section ref={returnRef} className="flex flex-row justify-between w-10/12  md:w-8/12 lg:w-6/12 py-14 m-auto">
                     <span className=" h-12 w-16 md:h-20 md:w-24 ">
                         <img className=" w-full h-full" src={tesla} alt="tesla" />
