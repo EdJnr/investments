@@ -54,28 +54,29 @@ export const CoinPage=()=>{
     ]
     return(
       <div className=" w-8/12 m-auto mt-36"> 
-        <header className=" flex flex-col mb-10">
-          <span className="rank bg-black w-16 text-white rounded text-xs py-1 shadow-lg">
-            Rank #{coinData?.market_cap_rank}
-          </span>
-
-         <div className=" flex  items-center mt-3">
-          <img className=" w-7 h-7 rounded mr-0.5" src={coinData?.image?.large} alt="" />
-          <h2 className=" text-3xl font-semibold mx-2 text-gray-700">{coinData?.name}</h2>
-          <p className=" text-sm mt-3">{`${coinData?.symbol}`.toUpperCase()}</p>
-         </div>
-
-         <p className=" text-left mt-2 text-green-600 text-4xl font-semibold">${coinData?.market_data?.current_price?.usd}</p>
-         <p className=" text-left text-gray-400 mt-2">Last Updated : {formatDate(`${coinData?.market_data?.last_updated}`)}</p>
-        </header>
+        
 
         <main className="">
-          <h3 className=" text-left text-2xl text-gray-500 font-semibold">{coinData?.name} Price Chart {`(${coinData?.symbol})`.toUpperCase()}</h3>
-
           <div className="  flex justify-between">
             {/* chart */}
             <section
-            className=" w-7/12 h-96">
+            className=" w-8/12">
+              <header className=" flex flex-col mb-10">
+                <span className="rank bg-black w-16 text-white rounded text-xs py-1 shadow-lg">
+                  Rank #{coinData?.market_cap_rank}
+                </span>
+
+                <div className=" flex  items-center mt-3">
+                  <img className=" w-7 h-7 rounded mr-0.5" src={coinData?.image?.large} alt="" />
+                  <h2 className=" text-3xl font-semibold mx-2 text-gray-700">{coinData?.name}</h2>
+                  <p className=" text-sm mt-3">{`${coinData?.symbol}`.toUpperCase()}</p>
+                </div>
+
+                <p className=" text-left mt-2 text-green-600 text-4xl font-semibold">${coinData?.market_data?.current_price?.usd}</p>
+                <p className=" text-left text-gray-400 mt-2">Last Updated : {formatDate(`${coinData?.market_data?.last_updated}`)}</p>
+              </header>
+
+              <h3 className=" text-left text-2xl text-gray-500 font-semibold">{coinData?.name} Price Chart {`(${coinData?.symbol})`.toUpperCase()}</h3>
               <div className="flex justify-end mr-9">
                 <div style={{borderWidth:1}} className=" my-3 flex  items-center rounded  border-gray-300 w-fit">
                   {periodArr.map(({id,name,value})=>
@@ -88,7 +89,7 @@ export const CoinPage=()=>{
                 </div>
               </div>
 
-              <div style={{marginLeft: -7}} className=" w-full h-full">
+              <div style={{marginLeft: -7}} className=" w-full h-96">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={coinStore.graphData}
@@ -110,31 +111,35 @@ export const CoinPage=()=>{
             </section>
 
             {/* right section */}
-            <section className=" bg-red-200 w-5/12">
+            <section className=" pl-10 w-4/12 ">
               {/* CONVERTER */}
-              <div className="converter">
-                {/* coin */}
-                <div className="">
-                  <span>{`${coinData?.symbol}`.toUpperCase()}</span>
-                  <input type="number" />
-                </div>
+              <div className="converter rounded-xl py-7 bg-zinc-100">
+                <div className=" mx-4">
+                  <h3 className=" mb-4 text-xl font-bold text-gray-700 text-start">{coinData?.name} Converter</h3>
+                  {/* coin */}
+                  <div className=" w-full flex justify-between mb-3 ">
+                    <span style={{borderRightWidth:1}} className="flex border-gray-200 bg-white justify-center rounded-l-lg items-center pl w-24 ">{`${coinData?.symbol}`.toUpperCase()}</span>
+                    <input style={{width : 'calc(100% - 96px)'}} className="border-2 border-white focus:border-blue-300 rounded-r-lg hover:border-blue-200 hover:outline-none focus:outline-none px-3 h-12" type="number" />
+                  </div>
 
-                {/* usd value */}
-                <div className="">
-                  <span>{`USD`}</span>
-                  <input type="number" />
-                </div>
+                  {/* usd value */}
+                  <div className=" w-full flex justify-between ">
+                    <span style={{borderRightWidth:1}} className="flex focus:border-blue-300 hover:border-blue-200 border-gray-200 bg-white justify-center rounded-l-lg items-center pl w-24 ">USD</span>
+                    <input style={{width : 'calc(100% - 96px)'}} className="border-2 border-white focus:border-blue-300 rounded-r-lg hover:border-blue-200 hover:outline-none focus:outline-none px-3 h-12" type="number" />
+                  </div>
 
-                <p>1 {`${coinData?.symbol}`.toUpperCase()} = {coinData?.market_data?.current_price[currency]}</p>
+                  <p className=" font-semibold text-start mt-4 text-gray-400">1 {`${coinData?.symbol}`.toUpperCase()} = ${coinData?.market_data?.current_price[currency]}</p>
+                </div>
               </div>
 
               {/* STATISTICS */}
-              <div className="statistics">
-                <div className="content">
+              <div className="statistics rounded-xl py-7 mt-4 bg-zinc-100">
+                <div className="content mx-4">
+                  <h3 className=" mb-4 text-xl font-bold text-gray-700 text-start">{`${coinData?.symbol}`.toUpperCase()} Market Statistics</h3>
                   {dataArr.map(({id,head,text})=>
-                    <div key={id} className="">
-                      <p>{head}</p>
-                      <p>{text}</p>
+                    <div style={{borderBottomWidth:1}} key={id} className=" flex pb-1 justify-between mb-3">
+                      <p className=" text-gray-500">{head}</p>
+                      <p className=" font-semibold">{text}</p>
                     </div>
                   )}
                 </div>
