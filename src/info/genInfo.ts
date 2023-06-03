@@ -1,1 +1,1 @@
-export const mainBrandName = 'Musk Investments'
+export const mainBrandName = 'Edd Investments'
