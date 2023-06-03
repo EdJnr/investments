@@ -146,7 +146,6 @@ const SignUp = () => {
                                 state:false,
                                 message:'',
                                 backGround:'green'
-
                             })
                             setconfirmPassword(e.target.value);
                         }}
@@ -160,16 +159,28 @@ const SignUp = () => {
                         className=" w-full hover:bg-blue-400 bg-blue-500 rounded py-3 text-white "
                         >Submiting...</button>}
 
-                        <hr className=" mt-6"/>
-                        <p className=" py-3">Already have an account?</p>
-
-                        <button
+                        <p className=" mb-2 py-3">Already have an account? <span
                         onClick={()=>{
                             navigate('/')
-                        }}
-                        className=" w-full border-2 hover:border-blue-400 border-gray-300 rounded py-3 "
-                        >Log In</button>
+                        }} 
+                        className=" text-blue-900 hover:cursor-pointer font-semibold underline">Login</span></p>
+                    
+                        <hr className=""/>
+                        <div className="flex justify-center">
+                            <p className=" px-4 font-semibold text-gray-600 bg-white" style={{marginTop:-15}}>or</p>
+                        </div>
                     </form>
+
+                    <button
+                    onClick={()=>{
+                        setAlert({
+                            state:true,
+                            message:'Feature not available at the moment',
+                            backGround:'red'
+                        })
+                    }}
+                    className=" mt-3 w-10/12 sm:w-7/12 md:w-72 border-2 hover:border-blue-400 border-gray-300 rounded py-3 "
+                    >Continue with Google</button>
                 </section>
             </main>
         </>

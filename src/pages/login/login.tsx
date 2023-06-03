@@ -85,16 +85,27 @@ const Login = () => {
                         className=" w-full hover:bg-blue-400 bg-blue-500 rounded py-3 text-white "
                         >Logging in...</button>}
 
-                        <hr className=" mt-6"/>
-                        <p className=" py-3">Don't have an account?</p>
-
-                        <button
+                        <p className=" mb-2 py-3">Don't have an account? <span
                         onClick={()=>{
                             navigate('/sign-up')
-                        }}
-                        className=" w-full border-2 hover:border-blue-400 border-gray-300 rounded py-3 "
-                        >Create an account</button>
+                        }} 
+                        className=" text-blue-900 hover:cursor-pointer font-semibold underline">Sign Up</span></p>
+                    
+                        <hr className=""/>
+                        <div className="flex justify-center">
+                            <p className=" px-4 font-semibold text-gray-600 bg-white" style={{marginTop:-15}}>or</p>
+                        </div>
                     </form>
+
+                    <button
+                    onClick={()=>{
+                        setAlert({
+                            state:true,
+                            message:'Feature not available at the moment',
+                        })
+                    }}
+                    className="w-10/12 sm:w-7/12 md:w-72 mt-3 border-2 hover:border-blue-400 border-gray-300 rounded py-3 "
+                    >Continue with Google</button>
                 </section>
             </main>
         </>
