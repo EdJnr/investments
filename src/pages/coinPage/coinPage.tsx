@@ -5,38 +5,50 @@ import { useNavigate, useParams } from "react-router-dom"
 import { formatDate } from "../../functions/formatDate"
 
 interface stateTypes{
-  currency:'usd'|'eur'|'jpy'
+  currency:string
   selectedPeriodValue : number
+  currencyValue : number|undefined
+  usdValue : number|undefined
 }
 
 export const CoinPage=()=>{
-    const coinStore = CoinStore();
-    const params = useParams<string>();
-    const navigate = useNavigate();
+  const coinStore = CoinStore();
+  const params = useParams<string>();
+  const navigate = useNavigate();
 
-    const coinData = coinStore?.coinData;
+  const coinData = coinStore?.coinData;
 
-    //component states
-    const[states,setState]=useState<stateTypes>({
-        currency:'usd',
-        selectedPeriodValue:270
-    })
-    const{currency,selectedPeriodValue}=states;
+  //component states
+  const[states,setState]=useState<stateTypes>({
+    currency:'usd',
+    selectedPeriodValue:270,
+    currencyValue:0,
+    usdValue:0
+  })
+  const{currency,selectedPeriodValue,currencyValue,usdValue}=states;
 
     //update state
-    const updateState=(stateName:string,value:any[]|string|number|boolean|'usd'|'eur'|'jpy')=>{
-        setState(((current) => ({...current,[stateName]:value})));
+    const updateState=(stateName:string,value:any[]|string|number|boolean)=>{
+      setState(((current) => ({...current,[stateName]:value})));
     }
 
     useEffect(()=>{
-        params.id ? 
-        coinStore.fetchCoin(params.id,currency,selectedPeriodValue)
-        :
-        navigate('/dashboard')
+      window.scrollTo(0,0);
+      
+      params.id ? 
+      coinStore.fetchCoin(params.id,currency,selectedPeriodValue)
+      :
+      navigate('/dashboard')
     },[selectedPeriodValue,currency])
 
+    const currenciesArr = [
+      {id:0,value:'usd'},
+      {id:1,value:'eur'},
+      {id:2,value:'jpy'},
+    ]
+
     const dataArr = [
-      {id:0,head:'Current Price',text:`$${coinData?.market_data?.current_price[currency]}`},
+      {id:0,head:'Current Price',text:`${coinData?.market_data?.current_price[currency]} ${`${currency}`.toUpperCase()}`},
       {id:1,head:'Market Cap Rank',text:coinData?.market_cap_rank},
       {id:2,head:'24h High',text:coinData?.market_data?.high_24h[currency]},
       {id:3,head:'24h Lower',text:coinData?.market_data?.low_24h[currency]},
@@ -53,14 +65,12 @@ export const CoinPage=()=>{
       {id:6,name:'270d',value:270},
     ]
     return(
-      <div className=" w-8/12 m-auto mt-36"> 
-        
-
+      <div className=" md:w-9/12 2xl:w-8/12 m-auto mt-28 mb-10"> 
         <main className="">
           <div className="  flex justify-between">
             {/* chart */}
             <section
-            className=" w-8/12">
+            className="calc-100-384">
               <header className=" flex flex-col mb-10">
                 <span className="rank bg-black w-16 text-white rounded text-xs py-1 shadow-lg">
                   Rank #{coinData?.market_cap_rank}
@@ -72,12 +82,27 @@ export const CoinPage=()=>{
                   <p className=" text-sm mt-3">{`${coinData?.symbol}`.toUpperCase()}</p>
                 </div>
 
-                <p className=" text-left mt-2 text-green-600 text-4xl font-semibold">${coinData?.market_data?.current_price?.usd}</p>
+                <p className=" text-left mt-2 text-green-600 text-4xl font-semibold">{(coinData?.market_data?.current_price[currency])} {`${currency}`.toUpperCase()}</p>
                 <p className=" text-left text-gray-400 mt-2">Last Updated : {formatDate(`${coinData?.market_data?.last_updated}`)}</p>
               </header>
 
-              <h3 className=" text-left text-2xl text-gray-500 font-semibold">{coinData?.name} Price Chart {`(${coinData?.symbol})`.toUpperCase()}</h3>
-              <div className="flex justify-end mr-9">
+              <div className=" flex justify-between items-center">
+                <h3 className=" text-left text-2xl text-gray-500 font-semibold">{coinData?.name} Price Chart {`(${coinData?.symbol})`.toUpperCase()}</h3>
+                <span style={{marginRight:40}} className="flex">
+                  <p className=" mr-2 text-gray-500">Currency: </p>
+
+                  <select 
+                  style={{borderWidth:1}}
+                  value={currency} 
+                  onChange={(e)=> updateState('currency',e.target.value)}
+                  className=" border-gray-300 w-16 h-7 hover:border-blue-200 focus:border-blue-400 hover:outline-none focus:outline-none rounded">
+                    {currenciesArr.map(({id,value})=>
+                      <option key={id} value={value}>{value.toUpperCase()}</option>
+                    )}
+                  </select>
+                </span>
+              </div>
+              <div style={{marginRight:40}} className="flex justify-end">
                 <div style={{borderWidth:1}} className=" my-3 flex  items-center rounded  border-gray-300 w-fit">
                   {periodArr.map(({id,name,value})=>
                     <span
@@ -89,7 +114,7 @@ export const CoinPage=()=>{
                 </div>
               </div>
 
-              <div style={{marginLeft: -7}} className=" w-full h-96">
+              <div style={{marginLeft: -10}} className=" w-full h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={coinStore.graphData}
@@ -111,7 +136,7 @@ export const CoinPage=()=>{
             </section>
 
             {/* right section */}
-            <section className=" pl-10 w-4/12 ">
+            <section className=" pl-0 w-80">
               {/* CONVERTER */}
               <div className="converter rounded-xl py-7 bg-zinc-100">
                 <div className=" mx-4">
@@ -119,16 +144,32 @@ export const CoinPage=()=>{
                   {/* coin */}
                   <div className=" w-full flex justify-between mb-3 ">
                     <span style={{borderRightWidth:1}} className="flex border-gray-200 bg-white justify-center rounded-l-lg items-center pl w-24 ">{`${coinData?.symbol}`.toUpperCase()}</span>
-                    <input style={{width : 'calc(100% - 96px)'}} className="border-2 border-white focus:border-blue-300 rounded-r-lg hover:border-blue-200 hover:outline-none focus:outline-none px-3 h-12" type="number" />
+                    <input
+                    value={currencyValue}
+                    onChange={(e)=>{
+                      const value = Number(e.target.value);
+                      updateState('currencyValue',value);
+                      updateState('usdValue',(value??0) * coinData?.market_data?.current_price[currency])
+                    }}
+                    style={{width : 'calc(100% - 96px)'}} 
+                    className="border-2 border-white focus:border-blue-300 rounded-r-lg hover:border-blue-200 hover:outline-none focus:outline-none px-3 h-12" type="number" />
                   </div>
 
-                  {/* usd value */}
+                  {/* currency value */}
                   <div className=" w-full flex justify-between ">
-                    <span style={{borderRightWidth:1}} className="flex focus:border-blue-300 hover:border-blue-200 border-gray-200 bg-white justify-center rounded-l-lg items-center pl w-24 ">USD</span>
-                    <input style={{width : 'calc(100% - 96px)'}} className="border-2 border-white focus:border-blue-300 rounded-r-lg hover:border-blue-200 hover:outline-none focus:outline-none px-3 h-12" type="number" />
+                    <span style={{borderRightWidth:1}} className="flex focus:border-blue-300 hover:border-blue-200 border-gray-200 bg-white justify-center rounded-l-lg items-center pl w-24 ">{`${currency}`.toUpperCase()}</span>
+                    <input 
+                    value={usdValue}
+                    onChange={(e)=>{
+                      const value = Number(e.target.value);
+                      updateState('usdValue',value);
+                      updateState('currencyValue',(value??0)/coinData?.market_data?.current_price[currency])
+                    }}
+                    style={{width : 'calc(100% - 96px)'}} 
+                    className="border-2 border-white focus:border-blue-300 rounded-r-lg hover:border-blue-200 hover:outline-none focus:outline-none px-3 h-12" type="number" />
                   </div>
 
-                  <p className=" font-semibold text-start mt-4 text-gray-400">1 {`${coinData?.symbol}`.toUpperCase()} = ${coinData?.market_data?.current_price[currency]}</p>
+                  <p className=" font-semibold text-start mt-4 text-gray-400">1 {`${coinData?.symbol}`.toUpperCase()} = {coinData?.market_data?.current_price[currency]} {`${currency}`.toUpperCase()}</p>
                 </div>
               </div>
 
@@ -138,8 +179,8 @@ export const CoinPage=()=>{
                   <h3 className=" mb-4 text-xl font-bold text-gray-700 text-start">{`${coinData?.symbol}`.toUpperCase()} Market Statistics</h3>
                   {dataArr.map(({id,head,text})=>
                     <div style={{borderBottomWidth:1}} key={id} className=" flex pb-1 justify-between mb-3">
-                      <p className=" text-gray-500">{head}</p>
-                      <p className=" font-semibold">{text}</p>
+                      <p className=" text-sm text-gray-500">{head}</p>
+                      <p className=" text-sm font-semibold">{text}</p>
                     </div>
                   )}
                 </div>

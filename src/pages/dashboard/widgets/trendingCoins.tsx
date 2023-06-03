@@ -3,7 +3,8 @@ import HomeStore from "../../../stores/homeStore"
 import { trendingCoinTypes } from "../../../interfaces/generalTypes";
 import { debounce } from "../../../functions/debounce";
 import { useNavigate } from "react-router";
-import { Pagination } from 'antd';
+import { Pagination, Table } from 'antd';
+import { columns } from "../data/trendingCoinsColuns";
 
 interface stateTypes{
     trendingCoinsData : trendingCoinTypes[] | []
@@ -55,38 +56,18 @@ export const TrendingCoins=()=>{
                 <div className="">
                     <h1 className=" text-2xl mb-5">{`${store.query && 'Search Result for '}`}<span className={store.query !== '' ? 'text-green-700':''}>{store.query !== '' ? store.query : 'Trending Coins'}</span></h1>
 
-                    <div className=" w-8/12 m-auto">
-                        {store?.coins?.slice((index-1) * pageSize,index*pageSize).map((coin)=>
-                            <div
-                            style={{
-                                borderBottomWidth:1
-                            }}
-                            onClick={()=> navigate(`/dashboard/currency/${coin.id}`)}
-                            key={coin.id}
-                            className=" mb-4 pb-3 hover:cursor-pointer flex flex-row justify-between border-b-2">
-                                <section className=" flex items-center">
-                                    <div  className="img w-16 h-16 mr-5">
-                                        <img className=" rounded-lg" src={coin.large} alt="icon" />
-                                    </div>
-
-                                    <p>{coin.name}</p>
-                                </section>
-
-                                <section className=" flex items-end justify-center flex-col">
-                                    <p>{coin.price_btc} BTC</p>
-                                    <p className=" text-green-600">{coin.usd_price} USD</p>
-                                </section>
-                            </div>
-                        )}
-
-                        <Pagination 
-                        onChange={(pageNum)=>{
-                            updateState('index',pageNum)
-                        }}
-                        className=" mt-10"
-                        pageSize={pageSize}
-                        defaultCurrent={1} 
-                        total={store?.coins?.length} />
+                    <div className=" w-10/12 m-auto">
+                        <Table 
+                        onRow={(record, rowIndex) => {
+                            return {
+                              onClick: (event) => {
+                                const id = record.details.id
+                                navigate(`/dashboard/currency/${id}`)
+                              }, // click row
+                            };
+                          }}
+                        columns={columns} 
+                        dataSource={store?.coins} />
                     </div>
                 </div>
             </main>

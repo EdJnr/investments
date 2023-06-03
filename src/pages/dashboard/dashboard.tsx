@@ -10,6 +10,8 @@ import { auth } from "../../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { TrendingCoins } from "./widgets/trendingCoins";
 import toast, { Toaster } from 'react-hot-toast';
+import { mainBrandName } from "../../info/genInfo";
+import { AntCloudOutlined, QqOutlined, DingtalkOutlined, SlackOutlined } from "@ant-design/icons";
 
 export const Dashboard=()=>{
     const investRef = useRef<any>();
@@ -87,6 +89,13 @@ export const Dashboard=()=>{
         {id:3,plan:'Six months',value:'6m'},
         {id:4,plan:'One year',value:'1y'},
     ]
+
+    const iconsArr=[
+        {id:0,Icon: AntCloudOutlined},
+        {id:1,Icon: QqOutlined},
+        {id:2,Icon: DingtalkOutlined},
+        {id:3,Icon: SlackOutlined},
+    ]
     return(
         <>
             <main className=" m-auto">
@@ -96,7 +105,7 @@ export const Dashboard=()=>{
                 <section className=" mt-20 w-10/12 lg:w-9/12 m-auto text-left ">
                     {/* hero */}
                     <section>
-                        <p className=" text-gray-400 mt-2">Musk Investments</p>
+                        <p className=" text-gray-400 mt-2">{mainBrandName}</p>
                         <p className=" text-xl">Welcome, <span className=" text-blue-700">{userData.name??'Investor'}</span></p>
                         
                         <div className=" text-center my-28">
@@ -145,7 +154,7 @@ export const Dashboard=()=>{
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-6 h-12 rounded w-full px-3"
                         type="name" 
                         name="yourbtc"
-                        placeholder="Eg. 3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5" 
+                        placeholder="Eg. 3FZbgi29cpjq2GjdwV8ey" 
                         onChange={(e)=>{
                             setSenderBtc(e.target.value);
                             InvestMode && setInvestMode(false);
@@ -164,7 +173,7 @@ export const Dashboard=()=>{
                         }}
                         required/>
 
-                        <label className=" text-gray-500" htmlFor="amount">Select Plan?</label>
+                        <label className=" text-gray-500" htmlFor="amount">Select Plan</label>
                         <select
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-8 h-12 rounded w-full px-3"
                         name="amount"
@@ -228,22 +237,14 @@ export const Dashboard=()=>{
                     )}
                 </section>
 
-                <h1 className=" text-2xl mb-2 mt-5">Powered By</h1>
-                <section ref={returnRef} className="flex flex-row justify-between w-10/12  md:w-8/12 lg:w-6/12 py-14 m-auto">
-                    <span className=" h-12 w-16 md:h-20 md:w-24 ">
-                        <img className=" w-full h-full" src={tesla} alt="tesla" />
-                    </span>
-
-                    <span className=" h-12 w-24 md:h-20 md:w-32 ">
-                        <img className=" w-full h-full" src={neuralink} alt="image" />
-                    </span>
-
-                    <span className=" h-12 w-12 md:h-20 md:w-20">
-                        <img className=" w-full h-full" src={twitter} alt="image" />
-                    </span>
+                <h1 className=" text-2xl mb-0 mt-5">Powered By</h1>
+                <section ref={returnRef} className="flex flex-row  w-10/12  md:w-8/12 justify-center lg:w-6/12 py-6 m-auto">
+                    {iconsArr.map(({id,Icon})=>
+                        <span key={id} className=" px-8">
+                            {<Icon style={{fontSize:40}} className=" text-gray-700"/>}
+                        </span>
+                    )}
                 </section>
-
-                <Footer/>
             </main>
         </>
     )

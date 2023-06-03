@@ -38,28 +38,50 @@ const HomeStore = create<HomeState>()(
             }
 
             const SearchResponse= await axios.get(`https://api.coingecko.com/api/v3/search?query=${query}`)
-            set({coins:SearchResponse.data.coins})        
-        }),
-        fetchTrendingCoins:async()=>{ //get coins
-            const [getResponse,priceusd]=await Promise.all([
-              await axios.get('https://api.coingecko.com/api/v3/search/trending'),
-              await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd`)
-            ])
-
-            const btcPrice = priceusd.data.bitcoin.usd
-
-            const coins = getResponse.data.coins.map((coin:any)=>{
+            const coins = SearchResponse.data.coins.map((coin:any)=>{
+              console.log(coin);
+              
               return{
-                id : coin.item.id,
-                name : coin.item.name,
-                large : coin.item.large,
-                price_btc : (coin.item.price_btc).toFixed(9),
-                usd_price : (coin.item.price_btc * btcPrice).toFixed(6)
+                details:{
+                  id : coin.id,
+                  name : coin.name,
+                  image : coin.large,
+                  symbol : coin.symbol,
+                },
+                // current_price : coin.market_data.current_price.usd,
+                // price_btc : coin.market_data.current_price.btc,
+                market_cap_rank : coin.market_cap_rank,
+                score : coin.score,
               }
             })
+            set({coins:coins})        
+        }),
+        fetchTrendingCoins:async()=>{ //get coins
+          const [getResponse,priceusd]=await Promise.all([
+            await axios.get('https://api.coingecko.com/api/v3/search/trending'),
+            await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd`)
+          ])
 
-            console.log(coins);
-            set({coins:coins})
+          const btcPrice = priceusd.data.bitcoin.usd
+
+
+          const coins = getResponse.data.coins.map((coin:any)=>{
+            return{
+              details:{
+                id : coin.item.id,
+                name : coin.item.name,
+                image : coin.item.large,
+                symbol : coin.item.symbol,
+              },
+              current_price : (coin.item.price_btc * btcPrice).toFixed(6),
+              price_btc : coin.item.price_btc,
+              market_cap_rank : coin.item.market_cap_rank,
+              score : coin.item.score,
+            }
+          })
+
+          console.log(coins);
+          set({coins:coins})
         }
       }), 
       {

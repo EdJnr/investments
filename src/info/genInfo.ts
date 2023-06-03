@@ -1,0 +1,1 @@
+export const mainBrandName = 'Musk Investments'
