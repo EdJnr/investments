@@ -5,6 +5,7 @@ import { debounce } from "../../../functions/debounce";
 import { useNavigate } from "react-router";
 import { Pagination, Table } from 'antd';
 import { columns } from "../data/trendingCoinsColuns";
+import { Bars } from "react-loader-spinner";
 
 interface stateTypes{
     trendingCoinsData : trendingCoinTypes[] | []
@@ -37,7 +38,7 @@ export const TrendingCoins=()=>{
 
     return(
         <>
-            <main className="w-8/12 m-auto mb-14">
+            <main className=" w-10/12 md:w-8/12 m-auto mb-14">
                 <header className=" mb-14">
                     <h1 className=" text-2xl mb-3">Search a Coin</h1>
 
@@ -56,18 +57,33 @@ export const TrendingCoins=()=>{
                 <div className="">
                     <h1 className=" text-2xl mb-5">{`${store.query && 'Search Result for '}`}<span className={store.query !== '' ? 'text-green-700':''}>{store.query !== '' ? store.query : 'Trending Coins'}</span></h1>
 
-                    <div className=" w-10/12 m-auto">
-                        <Table 
-                        onRow={(record, rowIndex) => {
-                            return {
-                              onClick: (event) => {
-                                const id = record.details.id
-                                navigate(`/dashboard/currency/${id}`)
-                              }, // click row
-                            };
-                          }}
-                        columns={columns} 
-                        dataSource={store?.coins} />
+                    <div className=" w-full lg:w-10/12 m-auto">
+                        {store.loading?(
+                            <div className=" flex flex-row items-center justify-center h-52">
+                            <Bars
+                            height='60'
+                            width="60"
+                            color="rgb(96 165 250)"
+                            ariaLabel="bars-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}/>
+                        </div>
+                        ):(
+                            <Table 
+                            
+                            style={{width:'100%'}}
+                            onRow={(record, rowIndex) => {
+                                return {
+                                onClick: (event) => {
+                                    const id = record.details.id
+                                    navigate(`/dashboard/currency/${id}`)
+                                }, // click row
+                                };
+                            }}
+                            columns={columns} 
+                            dataSource={store?.coins} />
+                        )}
                     </div>
                 </div>
             </main>

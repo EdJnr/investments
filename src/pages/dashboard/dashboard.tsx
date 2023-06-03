@@ -109,7 +109,7 @@ export const Dashboard=()=>{
                         <p className=" text-xl">Welcome, <span className=" text-blue-700">{userData.name??'Investor'}</span></p>
                         
                         <div className=" text-center my-28">
-                            <h1 className=" text-4xl">Invest your Crypo currency in the most reliable stocks</h1>
+                            <h1 className=" text-4xl">Invest your Crytpo currency in the most reliable stocks</h1>
                             <p className=" mt-2 text-gray-400">Scroll down to learn more or start investing now</p>
                             <button
                             onClick={()=>{
