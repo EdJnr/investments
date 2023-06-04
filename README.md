@@ -1,5 +1,6 @@
 <h2>Crypto Investments</h2>
 Demonstration
+<br/>
 Cryto Currency investment application. Trending currencies, markets value, rankings, market data, price, etc. of crypto currencies.
 
 <br/>
