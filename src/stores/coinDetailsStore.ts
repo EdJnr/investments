@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import { trendingCoinTypes } from '../interfaces/generalTypes'
-import { debounce } from '../functions/debounce'
 
 interface CoinState {
   graphData:any[]

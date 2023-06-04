@@ -17,5 +17,14 @@ code {
 }
 
 .calc-100-384{
-  width: calc(100% - 320px);
+  width: 100%;
+}
+.margin-left{
+  margin-left: -20 !important;
+}
+
+@media (min-width: 1024px) {
+  .calc-100-384{
+    width: calc(100% - 320px);
+  }
 }

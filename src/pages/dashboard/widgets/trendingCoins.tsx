@@ -4,8 +4,9 @@ import { trendingCoinTypes } from "../../../interfaces/generalTypes";
 import { debounce } from "../../../functions/debounce";
 import { useNavigate } from "react-router";
 import { Pagination, Table } from 'antd';
-import { columns } from "../data/trendingCoinsColuns";
+import { columns, columnsSmall } from "../data/trendingCoinsColuns";
 import { Bars } from "react-loader-spinner";
+import useMediaQuery from "../../../hooks/useMediaQueries";
 
 interface stateTypes{
     trendingCoinsData : trendingCoinTypes[] | []
@@ -15,12 +16,12 @@ interface stateTypes{
 
 export const TrendingCoins=()=>{
     const store = HomeStore();
+    const largeScreen = useMediaQuery('(min-width: 700px)')
     const navigate = useNavigate();
 
     //trending coins
     useEffect(()=>{
         store.fetchTrendingCoins();
-        store.setState('query','')
     },[])
 
     //component states
@@ -81,7 +82,7 @@ export const TrendingCoins=()=>{
                                 }, // click row
                                 };
                             }}
-                            columns={columns} 
+                            columns={largeScreen ? columns : columnsSmall} 
                             dataSource={store?.coins} />
                         )}
                     </div>
