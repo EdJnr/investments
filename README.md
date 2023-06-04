@@ -2,22 +2,18 @@
 Cryto Currency investment application. Trending currencies, markets value, rankings, market data, price, etc. of crypto currencies.
 
 <br/>
-<h5>Preview</h5>
+<h3>Preview</h3>
 Preview of the website
 <br/>
 
-![crypto](https://github.com/EdJnr/investments/assets/87177605/64e71dbc-0d25-4846-9bdf-fd556d9195a3)
+![crypto](https://github.com/EdJnr/investments/assets/87177605/1c78e1b5-506e-4d3d-9684-afc092e08efa)
 
 You can visit the website at https://investments.pages.dev
-
 <br/>
 <br/>
-<hr/>
 
 
-
-
-<h4>Installation</h4>
+#Installation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
