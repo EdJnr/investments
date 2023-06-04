@@ -1,4 +1,5 @@
-<h2>Crypto Investments Web Application Demonstation</h2>
+<h2>Crypto Investments</h2>
+Demonstration
 Cryto Currency investment application. Trending currencies, markets value, rankings, market data, price, etc. of crypto currencies.
 
 <br/>
@@ -13,7 +14,7 @@ You can visit the website at https://investments.pages.dev
 <br/>
 
 
-#Installation
+## Installation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
