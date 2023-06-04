@@ -1,14 +1,23 @@
-<h3>Crypto Investments Web Application</h3>
-Cryto Currency investment application. Trending currencies, markets value, rankings, market data, price, etc. of crypto currencies
+<h2>Crypto Investments Web Application Demonstation</h2>
+Cryto Currency investment application. Trending currencies, markets value, rankings, market data, price, etc. of crypto currencies.
 
+<br/>
+<h5>Preview</h5>
+Preview of the website
+<br/>
 
-![crypto](https://github.com/EdJnr/investments/assets/87177605/f11fbd99-222a-433a-9288-222a7c233185)
+![crypto](https://github.com/EdJnr/investments/assets/87177605/64e71dbc-0d25-4846-9bdf-fd556d9195a3)
 
+You can visit the website at https://investments.pages.dev
+
+<br/>
+<br/>
 <hr/>
 
 
 
 
+<h4>Installation</h4>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
