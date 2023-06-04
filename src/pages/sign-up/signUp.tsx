@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import google from '../../assets/google.png'
 
 const SignUp = () => {
     const navigate=useNavigate();
@@ -171,6 +172,7 @@ const SignUp = () => {
                         </div>
                     </form>
 
+                    
                     <button
                     onClick={()=>{
                         setAlert({
@@ -179,8 +181,8 @@ const SignUp = () => {
                             backGround:'red'
                         })
                     }}
-                    className=" mt-3 w-10/12 sm:w-7/12 md:w-72 border-2 hover:border-blue-400 border-gray-300 rounded py-3 "
-                    >Continue with Google</button>
+                    className="w-9/12 flex justify-center items-center sm:w-7/12 md:w-72 mt-3 border-2 hover:border-blue-400 border-gray-300 rounded py-3 "
+                    ><img className=" mr-2 w-5" src={google}/> Continue with Google</button>
                 </section>
             </main>
         </>

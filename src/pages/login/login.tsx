@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "../../components/header";
 import Alert from "../../components/alert";
-import axios from "axios";
+import google from '../../assets/google.png'
 import { useNavigate } from "react-router-dom";
 import { app, auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -49,7 +49,7 @@ const Login = () => {
                     <h6 className=" text-3xl mb-5 ">Welcome Back</h6>
                     <form 
                     onSubmit={handleLogin}
-                    className="w-10/12 sm:w-7/12 md:w-72"
+                    className="w-9/12 sm:w-7/12 md:w-72"
                     action="">
                         <input
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-3 h-12 rounded w-full px-3"
@@ -91,7 +91,7 @@ const Login = () => {
                         }} 
                         className=" text-blue-900 hover:cursor-pointer font-semibold underline">Sign Up</span></p>
                     
-                        <hr className=""/>
+                        <hr className="w-7/12 m-auto"/>
                         <div className="flex justify-center">
                             <p className=" px-4 font-semibold text-gray-600 bg-white" style={{marginTop:-15}}>or</p>
                         </div>
@@ -104,8 +104,8 @@ const Login = () => {
                             message:'Feature not available at the moment',
                         })
                     }}
-                    className="w-10/12 sm:w-7/12 md:w-72 mt-3 border-2 hover:border-blue-400 border-gray-300 rounded py-3 "
-                    >Continue with Google</button>
+                    className="w-9/12 flex justify-center items-center sm:w-7/12 md:w-72 mt-3 border-2 hover:border-blue-400 border-gray-300 rounded py-3 "
+                    ><img className=" mr-2 w-5" src={google}/> Continue with Google</button>
                 </section>
             </main>
         </>
