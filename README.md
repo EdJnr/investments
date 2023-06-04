@@ -2,7 +2,7 @@
 Cryto Currency investment application. Trending currencies, markets value, rankings, market data, price, etc. of crypto currencies
 
 
-
+![crypto](https://github.com/EdJnr/investments/assets/87177605/f11fbd99-222a-433a-9288-222a7c233185)
 
 <hr/>
 
