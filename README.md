@@ -1,8 +1,14 @@
-<h1>Crypto Investments Web Application</h1>
-Gen Info
+<h3>Crypto Investments Web Application</h3>
+Cryto Currency investment application. Trending currencies, markets value, rankings, market data, price, etc. of crypto currencies
+
+
+
+
 <hr/>
 
-# Getting Started with Create React App
+
+
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
