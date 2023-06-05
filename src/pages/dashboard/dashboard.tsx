@@ -102,7 +102,7 @@ export const Dashboard=()=>{
                 <Toaster />
 
                 {/* hero */}
-                <section className=" mt-20 w-10/12 lg:w-9/12 m-auto text-left ">
+                <section className=" mt-20  w-10/12 lg:w-9/12 2xl:w-8/12 m-auto text-left ">
                     {/* hero */}
                     <section>
                         <p className=" text-gray-400 mt-2">{mainBrandName}</p>
