@@ -109,8 +109,8 @@ export const Dashboard=()=>{
                         <p className=" text-xl">Welcome, <span className=" text-blue-700">{userData.name??'Investor'}</span></p>
                         
                         <div className=" text-center my-28">
-                            <h1 className=" text-4xl">Invest your Crytpo currency in the most reliable stocks</h1>
-                            <p className=" mt-2 text-gray-400">Scroll down to learn more or start investing now</p>
+                            <h1 className=" text-3xl md:text-4xl">Invest your Crypo currency in the most reliable stocks</h1>
+                            <p className=" mt-2 text-sm md:text-base text-gray-400">Scroll down to learn more or start investing now</p>
                             <button
                             onClick={()=>{
                                 investmentIntoView();
@@ -126,7 +126,7 @@ export const Dashboard=()=>{
 
                 {/* How to */}
                 <section 
-                style={{borderTopLeftRadius:100,borderBottomRightRadius:100}}
+                style={{borderTopLeftRadius:70,borderBottomRightRadius:70}}
                 className=" bg-blue-50 py-14 ">
                     <div className="">
                         <h1 className=" text-2xl mb-7">How to get started?</h1>
@@ -240,7 +240,7 @@ export const Dashboard=()=>{
                 <h1 className=" text-2xl mb-0 mt-5">Powered By</h1>
                 <section ref={returnRef} className="flex flex-row  w-10/12  md:w-8/12 justify-center lg:w-6/12 py-6 m-auto">
                     {iconsArr.map(({id,Icon})=>
-                        <span key={id} className=" px-8">
+                        <span key={id} className=" px-4 md:px-8">
                             {<Icon style={{fontSize:40}} className=" text-gray-700"/>}
                         </span>
                     )}
