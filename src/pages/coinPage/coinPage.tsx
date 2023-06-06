@@ -4,6 +4,7 @@ import {CartesianGrid, XAxis, YAxis, Area, AreaChart, ResponsiveContainer, Toolt
 import { useNavigate, useParams } from "react-router-dom"
 import { formatDate } from "../../functions/formatDate"
 import { Loader } from "../../components/loader"
+import useMediaQuery from "../../hooks/useMediaQueries"
 
 interface stateTypes{
   currency:string
@@ -18,6 +19,7 @@ export const CoinPage=()=>{
   const navigate = useNavigate();
 
   const coinData = coinStore?.coinData;
+  const largeScreen = useMediaQuery('(min-width: 700px)')
 
   //component states
   const[states,setState]=useState<stateTypes>({
@@ -122,7 +124,7 @@ export const CoinPage=()=>{
 
                   <div 
                   style={{marginLeft: -10}} 
-                  className=" w-full h-80">
+                  className={largeScreen ? "w-full h-80" : "w-full h-48"}>
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart
                         data={coinStore.graphData}

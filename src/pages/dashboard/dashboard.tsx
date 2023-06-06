@@ -62,7 +62,7 @@ export const Dashboard=()=>{
         }
         )
         :
-        setInvestMode(true);
+        setInvestMode(true)
     }
 
     useEffect(()=>{
