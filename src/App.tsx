@@ -5,18 +5,20 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Dashboard } from './pages/dashboard/dashboard';
 import { CoinPage } from './pages/coinPage/coinPage';
 import { Default } from './pages/default';
+import { NotFound } from './pages/404/404';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Login/>}/>
+          <Route path='/sign-in' element={<Login/>}/>
           <Route path='/sign-up' element={<SignUp/>}/>
+          <Route path='*' element={<NotFound/>}/>
 
           <Route element={<Default/>}>
-            <Route path='/dashboard' element={<Dashboard/>}/>
-            <Route path='dashboard/currency/:id' element={<CoinPage/>}/>
+            <Route path='/' element={<Dashboard/>}/>
+            <Route path='/currency/:id' element={<CoinPage/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

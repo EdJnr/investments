@@ -41,11 +41,9 @@ export const TrendingCoins=()=>{
         <>
             <main className=" w-10/12 md:w-8/12 m-auto mb-14">
                 <header className=" mb-14">
-                    <h1 className=" text-2xl mb-3">Search a Coin</h1>
-
                     <input
-                    placeholder="Eg. Bitcoin"
-                    className=" w-72 focus:border-blue-300 hover:border-blue-200 hover:outline-none focus:outline-none border-2 rounded px-3 h-10"
+                    placeholder="Search a coin..."
+                    className=" w-80 focus:border-blue-300 mb-3 hover:border-blue-200 hover:outline-none focus:outline-none border-2 rounded px-3 h-12"
                     onChange={(e)=>{
                         updateState('index',1)
                         store.setState('query',e.target.value)
@@ -56,7 +54,7 @@ export const TrendingCoins=()=>{
                 
                 
                 <div className="">
-                    <h1 className=" text-2xl mb-5">{`${store.query && 'Search Result for '}`}<span className={store.query !== '' ? 'text-green-700':''}>{store.query !== '' ? store.query : 'Trending Coins'}</span></h1>
+                    <h1 className=" font-semibold text-[26px]  mb-8">{`${store.query && 'Search Result for '}`}<span className={store.query !== '' ? 'text-green-700':''}>{store.query !== '' ? store.query : 'Trending Coins'}</span></h1>
 
                     <div className=" w-full lg:w-10/12 m-auto">
                         {store.loading?(
@@ -78,7 +76,7 @@ export const TrendingCoins=()=>{
                                 return {
                                 onClick: (event) => {
                                     const id = record.details.id
-                                    navigate(`/dashboard/currency/${id}`)
+                                    navigate(`/currency/${id}`)
                                 }, // click row
                                 };
                             }}

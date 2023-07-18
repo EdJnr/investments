@@ -8,7 +8,7 @@ export const Default=()=>{
     return(
         <>
             {/* navbar */}
-            <Navbar subPage={location.pathname==='/dashboard'?false:true}/>
+            <Navbar subPage={location.pathname==='/'?false:true}/>
 
             {/* page */}
             <div
