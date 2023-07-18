@@ -12,6 +12,9 @@ import { TrendingCoins } from "./widgets/trendingCoins";
 import toast, { Toaster } from 'react-hot-toast';
 import { mainBrandName } from "../../info/genInfo";
 import { AntCloudOutlined, QqOutlined, DingtalkOutlined, SlackOutlined } from "@ant-design/icons";
+import Features from "./widgets/features";
+import { BetterAlternative } from "./widgets/betterAlternative";
+import { HeaderText } from "../../components/headerText";
 
 export const Dashboard=()=>{
     const investRef = useRef<any>();
@@ -65,12 +68,12 @@ export const Dashboard=()=>{
         setInvestMode(true)
     }
 
-    useEffect(()=>{
-        const user = JSON.parse(localStorage.getItem('client')!)
-        if (!user?.uid) {
-           navigate('/') 
-        }
-    },[])
+    // useEffect(()=>{
+    //     const user = JSON.parse(localStorage.getItem('client')!)
+    //     if (!user?.uid) {
+    //        navigate('/') 
+    //     }
+    // },[])
 
     const listItems=[
         {id:1,text:'Ensure you provide your precise crypto currency wallet address'},
@@ -109,13 +112,13 @@ export const Dashboard=()=>{
                         <p className=" text-xl">Welcome, <span className=" text-blue-700">{userData.name??'Investor'}</span></p>
                         
                         <div className=" text-center my-28">
-                            <h1 className=" text-3xl md:text-4xl">Invest your Crypo currency in the most reliable stocks</h1>
-                            <p className=" mt-2 text-sm md:text-base text-gray-400">Scroll down to learn more or start investing now</p>
+                            <h1 className=" text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Invest your Crypo currency in the most<p className=" mt-4"> reliable stocks</p></h1>
+                            <p className=" mt-4 text-sm md:text-lg text-gray-500">Scroll down to learn more or start investing now</p>
                             <button
                             onClick={()=>{
                                 investmentIntoView();
                             }}
-                            className=" mt-5 hover:bg-blue-400 bg-blue-500 rounded py-2 px-4 text-white "
+                            className=" mt-5 hover:bg-blue-400 bg-blue-500 rounded py-2 px-4 text-white"
                             >Invest Now</button>
                         </div>
                     </section>
@@ -124,14 +127,17 @@ export const Dashboard=()=>{
                 {/* trending */}
                 <TrendingCoins/>
 
+                {/* features */}
+                <Features/>
+
                 {/* How to */}
                 <section 
                 style={{borderTopLeftRadius:70,borderBottomRightRadius:70}}
                 className=" bg-blue-50 py-14 ">
                     <div className="">
-                        <h1 className=" text-2xl mb-7">How to get started?</h1>
+                        <HeaderText text="How to get started?"/>
                         
-                        <ol className="lg:w-9/12 w-10/12 m-auto">
+                        <ol className="lg:w-9/12 w-10/12 m-auto mt-7">
                             {listItems.map((item)=>
                                 <li className=" my-8 text-gray-500" key={item.id}>{`${item.id}. ${item.text}`}</li>
                             )}
@@ -139,17 +145,20 @@ export const Dashboard=()=>{
                     </div>
                 </section>
 
+                {/* better alternative */}
+                <BetterAlternative/>
+
                 {/* invest now */}
                 <section 
                 ref={investRef}
                 id="invest"
                 className=" w-10/12 lg:w-9/12 py-14 m-auto">
-                    <h1 className=" text-2xl mb-7">Invest now</h1>
+                    <HeaderText text="Invest now"/>
 
                     <form 
                     onSubmit={handleInvest}
-                    className=" w-12/12 lg:w-72 m-auto">
-                        <label className=" text-gray-500" htmlFor="yourbtc">Your Bitcoin wallet</label>
+                    className=" w-12/12 lg:w-[422px] mb-16 m-auto mt-7">
+                        <label className=" mb-3 text-gray-500 flex" htmlFor="yourbtc">Your Bitcoin wallet</label>
                         <input
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-6 h-12 rounded w-full px-3"
                         type="name" 
@@ -161,7 +170,7 @@ export const Dashboard=()=>{
                         }}
                         required/>
 
-                        <label className=" text-gray-500" htmlFor="amount">How much do you want to invest?</label>
+                        <label className=" mb-3 text-gray-500 flex" htmlFor="amount">How much do you want to invest?</label>
                         <input
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-6 h-12 rounded w-full px-3"
                         type="number" 
@@ -173,7 +182,7 @@ export const Dashboard=()=>{
                         }}
                         required/>
 
-                        <label className=" text-gray-500" htmlFor="amount">Select Plan</label>
+                        <label className=" mb-3 text-gray-500 flex" htmlFor="amount">Select Plan</label>
                         <select
                         className=" border-2 outline-none focus:border-blue-300 hover:border-blue-200 mb-8 h-12 rounded w-full px-3"
                         name="amount"
@@ -193,7 +202,7 @@ export const Dashboard=()=>{
                         ):
                         (
                             <button
-                            className=" mt-0 hover:bg-blue-400 bg-blue-500 rounded py-2 px-4 text-white "
+                            className=" mt-0 hover:bg-blue-400 bg-blue-500 rounded py-3 font- text-lg px-5 text-white "
                             >Invest</button>
                         )}
                     </form>
@@ -201,7 +210,7 @@ export const Dashboard=()=>{
                     {/* btc wallet details */}
                     {(InvestMode)&&(
                         <div className="">
-                            <p className=" mt-5 text-2xl">Potential Return : <span className=" text-green-800">{`$${getReturns(amount,plan)}`}</span></p>
+                            <p className=" mt-5  text-2xl">Potential Return : <span className=" text-green-800">{`$${getReturns(amount,plan)}`}</span></p>
                             <p className=" mt-3 text-gray-600">Please send exactly <span className=" font-semibold text-black">${amount}</span> to the bitcoin address below</p>
 
                             <div className="  bg-slate-100 h-44 w-36 m-auto flext justify-center mt-7 items-center">
@@ -237,10 +246,10 @@ export const Dashboard=()=>{
                     )}
                 </section>
 
-                <h1 className=" text-2xl mb-0 mt-5">Powered By</h1>
-                <section ref={returnRef} className="flex flex-row  w-10/12  md:w-8/12 justify-center lg:w-6/12 py-6 m-auto">
+                <HeaderText text="Powered by world's trusted teams"/>
+                <section ref={returnRef} className="flex flex-row  w-10/12 mt-5 mb-10 md:w-8/12 justify-center lg:w-6/12 py-6 m-auto">
                     {iconsArr.map(({id,Icon})=>
-                        <span key={id} className=" px-4 md:px-8">
+                        <span key={id} className=" px-4 md:px-16">
                             {<Icon style={{fontSize:40}} className=" text-gray-700"/>}
                         </span>
                     )}
